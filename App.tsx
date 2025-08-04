@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppContextProvider, useApp } from './contexts/AppContext';
+import { AppContextProvider, useAppContext } from './contexts/AppContext'; // ✅ تم التعديل
 import AuthScreen from './screens/AuthScreen';
 import StartScreen from './screens/StartScreen';
 import ProfileScreen from './screens/ProfileScreen';
@@ -17,7 +17,7 @@ import DestructionMode from './components/DestructionMode';
 import { Screen } from './types';
 
 const AppContent = () => {
-    const { currentScreen, destructionModeActive, session, authLoading } = useApp();
+    const { currentScreen, destructionModeActive, session, authLoading } = useAppContext(); // ✅ تم التعديل
 
     if (authLoading) {
         return (
