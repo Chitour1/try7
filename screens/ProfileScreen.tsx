@@ -1,5 +1,5 @@
 import React from 'react';
-import { useApp } from '../contexts/AppContext';
+import { useAppContext } from '../contexts/AppContext'; // ✅ تم تعديل هذا السطر
 import { Screen } from '../types';
 import ScreenContainer from '../components/common/ScreenContainer';
 import BackButton from '../components/common/BackButton';
@@ -17,8 +17,22 @@ const StatCard: React.FC<StatCardProps> = ({ value, label }) => (
 );
 
 const ProfileScreen = () => {
-    const { navigateTo, profile, getCompletedLessonsCount, getMasteredLessonsCount } = useApp();
+    // ✅ تم تعديل هذا السطر
+    const { navigateTo, profile, progress } = useAppContext(); 
     
+    // ✅ تم إضافة هذه الدوال هنا
+    const getCompletedLessonsCount = () => {
+        if (!progress) return 0;
+        return Object.values(progress).filter(p => p.stage > 0).length;
+    };
+
+    const getMasteredLessonsCount = () => {
+        if (!progress) return 0;
+        // ملاحظة: الرقم 8 هو للمرحلة التي تعتبر "إتقان"، قد تحتاج لتعديله لاحقًا
+        const MASTERED_STAGE = 8; 
+        return Object.values(progress).filter(p => p.stage >= MASTERED_STAGE).length;
+    };
+
     if (!profile) {
         return (
             <ScreenContainer>
