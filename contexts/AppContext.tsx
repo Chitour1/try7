@@ -7,108 +7,162 @@ import { SRS_STAGES, LIBRARY_INDEX_URL } from '../constants';
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    // Auth State
-    const [session, setSession] = useState<Session | null>(null);
-    const [profile, setProfile] = useState<Profile | null>(null);
-    const [authLoading, setAuthLoading] = useState(true);
-    
-    // App State
-    const [progress, setProgress] = useState<Progress>({});
-    const [currentScreen, setCurrentScreen] = useState<Screen>(Screen.START);
-    const [previousScreen, setPreviousScreen] = useState<Screen>(Screen.START);
-    const [settings, setSettings] = useState<Settings>({ speechRate: 0.6 });
+    // Auth State
+    const [session, setSession] = useState<Session | null>(null);
+    const [profile, setProfile] = useState<Profile | null>(null);
+    const [authLoading, setAuthLoading] = useState(true);
+    
+    // App State
+    const [progress, setProgress] = useState<Progress>({});
+    const [currentScreen, setCurrentScreen] = useState<Screen>(Screen.START);
+    const [previousScreen, setPreviousScreen] = useState<Screen>(Screen.START);
+    const [settings, setSettings] = useState<Settings>({ speechRate: 0.6 });
 
-    // Practice State
-    const [practiceList, setPracticeList] = useState<PracticeItem[]>([]);
-    const [currentPracticeItemIndex, setCurrentPracticeItemIndex] = useState<number>(0);
-    const [isGlobalSession, setIsGlobalSession] = useState<boolean>(false);
+    // Practice State
+    const [practiceList, setPracticeList] = useState<PracticeItem[]>([]);
+    const [currentPracticeItemIndex, setCurrentPracticeItemIndex] = useState<number>(0);
+    const [isGlobalSession, setIsGlobalSession] = useState<boolean>(false);
 
-    // Navigation State
-    const [currentLevelKey, setCurrentLevelKey] = useState<string | null>(null);
-    const [currentLessonKey, setCurrentLessonKey] = useState<string | null>(null);
-    const [currentGroup, setCurrentGroup] = useState<LibraryGroup | null>(null);
-    const [currentSubgroup, setCurrentSubgroup] = useState<LibraryGroup | null>(null);
-    
-    // Misc State
-    const [destructionModeActive, setDestructionModeActive] = useState<boolean>(false);
-    const [fullLessonLibrary, setFullLessonLibrary] = useState<LessonLibrary>({});
-    const [isFullLibraryLoaded, setIsFullLibraryLoaded] = useState(false);
+    // Navigation State
+    const [currentLevelKey, setCurrentLevelKey] = useState<string | null>(null);
+    const [currentLessonKey, setCurrentLessonKey] = useState<string | null>(null);
+    const [currentGroup, setCurrentGroup] = useState<LibraryGroup | null>(null);
+    const [currentSubgroup, setCurrentSubgroup] = useState<LibraryGroup | null>(null);
+    
+    // Misc State
+    const [destructionModeActive, setDestructionModeActive] = useState<boolean>(false);
+    const [fullLessonLibrary, setFullLessonLibrary] = useState<LessonLibrary>({});
+    const [isFullLibraryLoaded, setIsFullLibraryLoaded] = useState(false);
 
-    // --- Auth State Management ---
+    // --- Auth State Management ---
 
-    // 1. Listener for auth events (login, logout) - sets the session.
-    useEffect(() => {
-        setAuthLoading(true);
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, sessionState) => {
-            setSession(sessionState);
-        });
-        // Initial session check
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            setSession(session);
-        });
+    // 1. Listener for auth events (login, logout) - sets the session.
+    useEffect(() => {
+        setAuthLoading(true);
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, sessionState) => {
+            setSession(sessionState);
+        });
+        // Initial session check
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            setSession(session);
+        });
 
-        return () => subscription.unsubscribe();
-    }, []);
+        return () => subscription.unsubscribe();
+    }, []);
 
-    // 2. Effect to fetch user data when session changes
-    useEffect(() => {
-        const fetchUserData = async () => {
-            setAuthLoading(true);
-            if (session) {
-                // Fetch profile
-                const { data: profileData, error: profileError } = await supabase
-                    .from('profiles').select('*').eq('id', session.user.id).single();
+    // 2. Effect to fetch user data when session changes
+    useEffect(() => {
+        const fetchUserData = async () => {
+            setAuthLoading(true);
+            if (session) {
+                // Fetch profile
+                const { data: profileData, error: profileError } = await supabase
+                    .from('profiles').select('*').eq('id', session.user.id).single();
 
-                if (profileError) {
-                    console.error('Error fetching profile:', profileError);
-                    setProfile(null);
-                } else {
-                    setProfile(profileData);
-                    setSettings(profileData.settings || { speechRate: 0.6 });
-                }
+                if (profileError) {
+                    console.error('Error fetching profile:', profileError);
+                    setProfile(null);
+                } else {
+                    setProfile(profileData);
+                    setSettings(profileData.settings || { speechRate: 0.6 });
+                }
 
-                // Fetch progress
-                const { data: progressData, error: progressError } = await supabase
-                    .from('lesson_progress').select('*').eq('user_id', session.user.id);
-                
-                if (progressError) {
-                    console.error('Error fetching progress:', progressError);
-                    setProgress({});
-                } else {
-                    const progressMap = progressData.reduce((acc: Progress, p) => {
-                        acc[p.lesson_key] = { stage: p.stage, lastCompletion: p.last_completion, sentenceProgress: p.sentence_progress };
-                        return acc;
-                    }, {});
-                    setProgress(progressMap);
-                }
-            } else {
-                // No session, clear user data
-                setProfile(null);
-                setProgress({});
-            }
-            setAuthLoading(false);
-        };
+                // Fetch progress
+                const { data: progressData, error: progressError } = await supabase
+                    .from('lesson_progress').select('*').eq('user_id', session.user.id);
+                
+                if (progressError) {
+                    console.error('Error fetching progress:', progressError);
+                    setProgress({});
+                } else {
+                    const progressMap = progressData.reduce((acc: Progress, p) => {
+                        acc[p.lesson_key] = { stage: p.stage, lastCompletion: p.last_completion, sentenceProgress: p.sentence_progress };
+                        return acc;
+                    }, {});
+                    setProgress(progressMap);
+                }
+            } else {
+                // No session, clear user data
+                setProfile(null);
+                setProgress({});
+            }
+            setAuthLoading(false);
+        };
 
-        fetchUserData();
-    }, [session]);
+        fetchUserData();
+    }, [session]);
 
-    // 3. Effect to check daily streak when profile is loaded
-    useEffect(() => {
-        if (profile) {
-            // checkStreak(); // Commenting out for now if checkStreak is not defined
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [profile?.id]); // Depends on the profile ID to run once per login
+    // 3. Effect to check daily streak when profile is loaded
+    useEffect(() => {
+        if (profile) {
+            // checkStreak();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [profile?.id]); // Depends on the profile ID to run once per login
 
-    
-    const signOut = async () => {
-        const { error } = await supabase.auth.signOut();
-        if (error) {
-            console.error('Error signing out:', error);
-        }
-        // No need to navigate, the useEffect listening to `session` will handle the state change.
-    };
+    
+    const signOut = async () => {
+        const { error } = await supabase.auth.signOut();
+        if (error) {
+            console.error('Error signing out:', error);
+        }
+        // No need to navigate, the useEffect listening to `session` will handle the state change.
+    };
 
-    // --- ✅ هذا هو السطر الذي تم إصلاحه ---
-    const navigateTo = () => {};
-    // ------------------------------------
+    const navigateTo = () => {};
+
+    // --- ✅ الجزء الذي تمت إضافته وإصلاحه ---
+    // تجميع كل البيانات والدوال لتمريرها
+    const value = {
+        session,
+        profile,
+        authLoading,
+        progress,
+        settings,
+        currentScreen,
+        previousScreen,
+        practiceList,
+        currentPracticeItemIndex,
+        isGlobalSession,
+        currentLevelKey,
+        currentLessonKey,
+        currentGroup,
+        currentSubgroup,
+        destructionModeActive,
+        fullLessonLibrary,
+        isFullLibraryLoaded,
+        setSession,
+        setProfile,
+        setProgress,
+        setSettings,
+        setCurrentScreen,
+        setPreviousScreen,
+        setPracticeList,
+        setCurrentPracticeItemIndex,
+        setIsGlobalSession,
+        setCurrentLevelKey,
+        setCurrentLessonKey,
+        setCurrentGroup,
+        setCurrentSubgroup,
+        setDestructionModeActive,
+        setFullLessonLibrary,
+        setIsFullLibraryLoaded,
+        signOut,
+        navigateTo
+    };
+
+    return (
+        <AppContext.Provider value={value}>
+            {children}
+        </AppContext.Provider>
+    );
+}; // <== هذا هو القوس المهم الذي كان ناقصاً
+
+// دالة مساعدة للوصول السهل للمحتوى
+export const useAppContext = () => {
+    const context = useContext(AppContext);
+    if (context === undefined) {
+        throw new Error('useAppContext must be used within an AppContextProvider');
+    }
+    return context;
+};
