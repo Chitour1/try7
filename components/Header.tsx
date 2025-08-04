@@ -31,7 +31,7 @@ const StatDisplay: React.FC<{ value: number; type: 'score' | 'streak' }> = ({ va
 };
 
 const Header = () => {
-    const { profile, signOut } = useApp();
+    const { profile, signOut } = useAppContext();
     
     return (
         <header className="bg-primary/80 backdrop-blur-sm py-3 px-4 sm:px-6 border-b border-tile-border fixed top-0 left-0 right-0 z-50 shadow-lg">
