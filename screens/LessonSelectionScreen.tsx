@@ -45,7 +45,7 @@ const LessonCard: React.FC<{ lessonKey: string; progressPercent: number; onClick
 };
 
 const LessonSelectionScreen = () => {
-    const { navigateTo, currentSubgroup, currentLevelKey, setCurrentLessonKey, progress, initializeLessonProgress, getLessonStatus } = useApp();
+    const { navigateTo, currentSubgroup, currentLevelKey, setCurrentLessonKey, progress, initializeLessonProgress, getLessonStatus } = useAppContext();
     const [lessonLibrary, setLessonLibrary] = useState<LessonLibrary | null>(null);
     const [loading, setLoading] = useState(true);
 
