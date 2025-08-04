@@ -17,7 +17,7 @@ const TipIcon = () => (
 
 
 const PracticeScreen = () => {
-    const { navigateTo, previousScreen, practiceList, currentPracticeItemIndex, setCurrentPracticeItemIndex, progress, updateLessonProgress, addPoints, isGlobalSession, checkStreak, getLessonSentences, fullLessonLibrary, profile, updateSettings, setCurrentLessonKey } = useApp();
+    const { navigateTo, previousScreen, practiceList, currentPracticeItemIndex, setCurrentPracticeItemIndex, progress, updateLessonProgress, addPoints, isGlobalSession, checkStreak, getLessonSentences, fullLessonLibrary, profile, updateSettings, setCurrentLessonKey } = useAppContext();
     const { speak } = useSpeechSynthesis();
 
     const currentItem = practiceList[currentPracticeItemIndex];
