@@ -1,6 +1,6 @@
 
 import { useCallback, useEffect, useState } from 'react';
-import { useApp } from '../contexts/AppContext';
+import { useAppContext } from '../contexts/AppContext';
 
 // To satisfy TypeScript for potential Cordova/Capacitor plugins
 declare global {
