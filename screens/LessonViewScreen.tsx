@@ -43,7 +43,7 @@ const SentenceCard: React.FC<{ sentence: any; repsDone: number; repsNeeded: numb
 };
 
 const LessonViewScreen = () => {
-    const { navigateTo, currentSubgroup, currentLevelKey, currentLessonKey, progress, setPracticeList, setIsGlobalSession, setCurrentPracticeItemIndex } = useApp();
+    const { navigateTo, currentSubgroup, currentLevelKey, currentLessonKey, progress, setPracticeList, setIsGlobalSession, setCurrentPracticeItemIndex } = useAppContext();
     const [lessonData, setLessonData] = useState<Lesson | null>(null);
 
     useEffect(() => {
