@@ -6,7 +6,7 @@ import ScreenContainer from '../components/common/ScreenContainer';
 import Button from '../components/common/Button';
 
 const WritingExerciseScreen = () => {
-    const { navigateTo, currentLessonKey, addPoints } = useApp();
+    const { navigateTo, currentLessonKey, addPoints } = useAppContext();
     const [inputValue, setInputValue] = useState('');
     const [feedback, setFeedback] = useState<{ message: string; type: 'correct' | 'incorrect' | '' }>({ message: '', type: '' });
     const [isSubmitted, setIsSubmitted] = useState(false);
