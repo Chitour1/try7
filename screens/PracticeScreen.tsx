@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
-import { useApp } from '../contexts/AppContext';
+import { useAppContext } from '../contexts/AppContext';
 import { Screen, Progress, LessonProgress } from '../types';
 import { SRS_STAGES } from '../constants';
 import { useSpeechSynthesis } from '../hooks/useSpeechSynthesis';
