@@ -6,7 +6,7 @@ import ScreenContainer from '../components/common/ScreenContainer';
 import Button from '../components/common/Button';
 
 const SessionCompleteScreen = () => {
-    const { navigateTo } = useApp();
+    const { navigateTo } = useAppContext();
 
     return (
         <ScreenContainer>
