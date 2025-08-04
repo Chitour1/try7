@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useApp } from '../contexts/AppContext';
+import { useAppContext } from '../contexts/AppContext';
 import { Screen, LessonLibrary, Lesson, Progress, LessonStatus } from '../types';
 import { SRS_STAGES } from '../constants';
 import ScreenContainer from '../components/common/ScreenContainer';
