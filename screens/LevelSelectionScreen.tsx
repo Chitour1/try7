@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { useApp } from '../contexts/AppContext';
+import { useAppContext } from '../contexts/AppContext';
 import { Screen, LessonLibrary, Lesson, Progress, Level } from '../types';
 import ScreenContainer from '../components/common/ScreenContainer';
 import BackButton from '../components/common/BackButton';
