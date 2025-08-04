@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { useApp } from '../contexts/AppContext';
+import { useAppContext } from '../contexts/AppContext';
 
 const AxeIcon = () => (
     <svg viewBox="0 0 100 100" className="w-full h-full">
