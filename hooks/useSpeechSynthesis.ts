@@ -22,7 +22,7 @@ declare global {
 }
 
 export const useSpeechSynthesis = () => {
-    const { settings } = useApp();
+    const { settings } = useAppContext();
     const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
 
     const loadVoices = useCallback(() => {
