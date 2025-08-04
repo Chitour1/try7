@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { useApp } from '../contexts/AppContext';
+import { useAppContext } from '../contexts/AppContext'; // ✅ تم تعديل هذا السطر
 import { Screen } from '../types';
 import ScreenContainer from '../components/common/ScreenContainer';
 
@@ -26,7 +25,7 @@ const IconButton: React.FC<IconButtonProps> = ({ icon, label, onClick }) => (
 );
 
 const StartScreen = () => {
-    const { navigateTo, setDestructionModeActive } = useApp();
+    const { navigateTo, setDestructionModeActive } = useAppContext(); // ✅ وتم تعديل هذا السطر
 
     return (
         <ScreenContainer>
