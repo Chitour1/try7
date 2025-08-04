@@ -22,11 +22,8 @@ const LevelGroupScreen = () => {
     useEffect(() => {
         const fetchIndex = async () => {
             try {
+                // ✅ تم إصلاح هذا السطر وإعادته لاستخدام المتغير الأصلي
                 const module = await import(/* @vite-ignore */ LIBRARY_INDEX_URL);
-                
-                // ✅ السطر التالي تمت إضافته لفحص البيانات
-                console.log("البيانات التي تم جلبها من الرابط:", module);
-                
                 setLevelGroups(module.LIBRARY_INDEX);
             } catch (error) {
                 console.error("Failed to load library index:", error);
@@ -51,7 +48,7 @@ const LevelGroupScreen = () => {
                 <p>جار التحميل...</p>
             ) : (
                 <div className="flex gap-4 flex-wrap justify-center p-2 w-full">
-                    {levelGroups && levelGroups.map(group => (
+                    {levelGroups.map(group => (
                         <LevelGroupCard key={group.groupName} group={group} onClick={() => handleGroupSelect(group)} />
                     ))}
                 </div>
