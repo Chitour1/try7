@@ -55,7 +55,7 @@ const styles = `
 `;
 
 const DestructionMode = () => {
-    const { setDestructionModeActive } = useApp();
+    const { setDestructionModeActive } = useAppContext();
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const axeRef = useRef<HTMLDivElement>(null);
     const audioContextRef = useRef<AudioContext | null>(null);
