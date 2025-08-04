@@ -1,6 +1,5 @@
-
 import React, { useEffect, useState } from 'react';
-import { useApp } from '../contexts/AppContext';
+import { useAppContext } from '../contexts/AppContext'; // ✅ تم التعديل
 import { Screen, LibraryGroup } from '../types';
 import { LIBRARY_INDEX_URL } from '../constants';
 import ScreenContainer from '../components/common/ScreenContainer';
@@ -16,14 +15,15 @@ const LevelGroupCard: React.FC<{ group: LibraryGroup, onClick: () => void }> = (
 );
 
 const LevelGroupScreen = () => {
-    const { navigateTo, setCurrentGroup, setCurrentSubgroup } = useApp();
+    const { navigateTo, setCurrentGroup, setCurrentSubgroup } = useAppContext(); // ✅ تم التعديل
     const [levelGroups, setLevelGroups] = useState<LibraryGroup[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchIndex = async () => {
             try {
-                const module = await import(LIBRARY_INDEX_URL);
+                // This is a placeholder, you might need to adjust the path
+                const module = await import('../library/index.ts'); 
                 setLevelGroups(module.LIBRARY_INDEX);
             } catch (error) {
                 console.error("Failed to load library index:", error);
