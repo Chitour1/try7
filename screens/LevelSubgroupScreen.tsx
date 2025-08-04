@@ -15,7 +15,7 @@ const LevelSubgroupCard: React.FC<{ group: LibraryGroup, onClick: () => void }> 
 );
 
 const LevelSubgroupScreen = () => {
-    const { navigateTo, currentGroup, setCurrentSubgroup } = useApp();
+    const { navigateTo, currentGroup, setCurrentSubgroup } = useAppContext();
     const [subgroups, setSubgroups] = useState<LibraryGroup[]>([]);
     const [loading, setLoading] = useState(true);
 
