@@ -46,7 +46,7 @@ const Countdown: React.FC<{ dueTimestamp: number }> = ({ dueTimestamp }) => {
 
 const ReviewLessonCard: React.FC<{ lessonKey: string; status: LessonStatus }> = ({ lessonKey, status }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const { getLessonSentences, fullLessonLibrary } = useApp();
+    const { getLessonSentences, fullLessonLibrary } = useAppContext();
     const sentences = getLessonSentences(lessonKey, fullLessonLibrary);
     
     const borderColorClass = `border-srs-${status.stage}`;
@@ -71,7 +71,7 @@ const ReviewLessonCard: React.FC<{ lessonKey: string; status: LessonStatus }> = 
 };
 
 const ReviewCenterScreen = () => {
-    const { navigateTo, progress, getLessonStatus, ensureFullLibraryLoaded, fullLessonLibrary, setPracticeList, setIsGlobalSession, setCurrentPracticeItemIndex, getLessonSentences } = useApp();
+    const { navigateTo, progress, getLessonStatus, ensureFullLibraryLoaded, fullLessonLibrary, setPracticeList, setIsGlobalSession, setCurrentPracticeItemIndex, getLessonSentences } = useAppContext();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
