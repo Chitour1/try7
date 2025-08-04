@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { useApp } from '../contexts/AppContext';
+import { useAppContext } from '../contexts/AppContext';
 import { Screen } from '../types';
 import ScreenContainer from '../components/common/ScreenContainer';
 import Button from '../components/common/Button';
